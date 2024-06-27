@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APBD_Project.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20240627120830_Add Soft and Disc tables")]
-    partial class AddSoftandDisctables
+    [Migration("20240627191810_add new tables")]
+    partial class addnewtables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,6 +59,59 @@ namespace APBD_Project.Migrations
                     b.UseTptMappingStrategy();
                 });
 
+            modelBuilder.Entity("APBD_Project.Models.Contract", b =>
+                {
+                    b.Property<int>("ContractId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ContractId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContractId"));
+
+                    b.Property<string>("ActualVersion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ActualVersion");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("CurrentlyPaid")
+                        .HasColumnType("float")
+                        .HasColumnName("CurrentlyPaid");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("EndDate");
+
+                    b.Property<bool>("IsSigned")
+                        .HasColumnType("bit")
+                        .HasColumnName("IsSigned");
+
+                    b.Property<int>("SoftwareId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("StartDate");
+
+                    b.Property<int>("SupportYears")
+                        .HasColumnType("int")
+                        .HasColumnName("SupportYears");
+
+                    b.Property<double>("TotalPaid")
+                        .HasColumnType("float")
+                        .HasColumnName("TotalPaid");
+
+                    b.HasKey("ContractId");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("SoftwareId");
+
+                    b.ToTable("Contracts");
+                });
+
             modelBuilder.Entity("APBD_Project.Models.Discount", b =>
                 {
                     b.Property<int>("DiscountId")
@@ -96,6 +149,40 @@ namespace APBD_Project.Migrations
                     b.ToTable("Discounts");
                 });
 
+            modelBuilder.Entity("APBD_Project.Models.Payment", b =>
+                {
+                    b.Property<int>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("PaymentId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float")
+                        .HasColumnName("Amount");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int")
+                        .HasColumnName("ClientId");
+
+                    b.Property<int>("ContractId")
+                        .HasColumnType("int")
+                        .HasColumnName("ContractId");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Date");
+
+                    b.HasKey("PaymentId");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("ContractId");
+
+                    b.ToTable("Payments");
+                });
+
             modelBuilder.Entity("APBD_Project.Models.Software", b =>
                 {
                     b.Property<int>("SoftwareId")
@@ -110,6 +197,10 @@ namespace APBD_Project.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("ActualVersion");
+
+                    b.Property<double>("BuyPrice")
+                        .HasColumnType("float")
+                        .HasColumnName("BuyPrice");
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -129,9 +220,9 @@ namespace APBD_Project.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("Name");
 
-                    b.Property<double>("Price")
+                    b.Property<double>("SubPrice")
                         .HasColumnType("float")
-                        .HasColumnName("Price");
+                        .HasColumnName("SubPrice");
 
                     b.HasKey("SoftwareId");
 
@@ -250,6 +341,25 @@ namespace APBD_Project.Migrations
                         });
                 });
 
+            modelBuilder.Entity("APBD_Project.Models.Contract", b =>
+                {
+                    b.HasOne("APBD_Project.Models.Client", "Client")
+                        .WithMany("Contracts")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("APBD_Project.Models.Software", "Software")
+                        .WithMany("Contracts")
+                        .HasForeignKey("SoftwareId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Software");
+                });
+
             modelBuilder.Entity("APBD_Project.Models.Discount", b =>
                 {
                     b.HasOne("APBD_Project.Models.Software", "Software")
@@ -259,6 +369,25 @@ namespace APBD_Project.Migrations
                         .IsRequired();
 
                     b.Navigation("Software");
+                });
+
+            modelBuilder.Entity("APBD_Project.Models.Payment", b =>
+                {
+                    b.HasOne("APBD_Project.Models.Client", "Client")
+                        .WithMany("Payments")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("APBD_Project.Models.Contract", "Contract")
+                        .WithMany("Payment")
+                        .HasForeignKey("ContractId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Contract");
                 });
 
             modelBuilder.Entity("APBD_Project.Models.CompanyClient", b =>
@@ -279,8 +408,22 @@ namespace APBD_Project.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("APBD_Project.Models.Client", b =>
+                {
+                    b.Navigation("Contracts");
+
+                    b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("APBD_Project.Models.Contract", b =>
+                {
+                    b.Navigation("Payment");
+                });
+
             modelBuilder.Entity("APBD_Project.Models.Software", b =>
                 {
+                    b.Navigation("Contracts");
+
                     b.Navigation("Discounts");
                 });
 #pragma warning restore 612, 618

@@ -33,4 +33,5 @@ public class Software
     public double SubPrice { get; set; }
 
     public IEnumerable<Discount> Discounts { get; set; }
+    public IEnumerable<Contract> Contracts { get; set; }
 }

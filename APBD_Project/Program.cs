@@ -11,6 +11,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IContractService, ContractService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddValidatorsFromAssemblyContaining<IndividualClientValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CompanyClientValidator>();
 builder.Services.AddDbContext<DataBaseContext>(opt =>
@@ -27,5 +29,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.MapGroup("/api").RegisterClientsEndpoints();
+app.MapGroup("/clients").RegisterClientsEndpoints();
+app.MapGroup("/contracts").RegisterContractsEndpoints();
+app.MapGroup("/payments").RegisterPaymentsEndpoints();
 app.Run();

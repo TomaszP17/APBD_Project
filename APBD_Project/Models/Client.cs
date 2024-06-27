@@ -21,4 +21,7 @@ public abstract class Client
     [Column("PhoneNumber")]
     [MaxLength(9)]
     public string PhoneNumber { get; set; }
+
+    public IEnumerable<Contract> Contracts { get; set; }
+    public IEnumerable<Payment> Payments { get; set; }
 }

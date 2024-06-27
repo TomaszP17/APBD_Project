@@ -1,5 +1,6 @@
 using APBD_Project.Models;
 using Microsoft.EntityFrameworkCore;
+using Contract = System.Diagnostics.Contracts.Contract;
 
 namespace APBD_Project.Contexts;
 
@@ -10,6 +11,8 @@ public class DataBaseContext : DbContext
     public DbSet<CompanyClient> CompanyClients { get; set; }
     public DbSet<Software> Softwares { get; set; }
     public DbSet<Discount> Discounts { get; set; }
+    public DbSet<Payment> Payments { get; set; }
+    public DbSet<Models.Contract> Contracts { get; set; }
     
     protected DataBaseContext()
     {
@@ -100,7 +103,11 @@ public class DataBaseContext : DbContext
             }
         );
         
-        
+        modelBuilder.Entity<Payment>()
+            .HasOne(p => p.Client)
+            .WithMany(c => c.Payments)
+            .HasForeignKey(p => p.ClientId)
+            .OnDelete(DeleteBehavior.NoAction);
         
     }
 }
