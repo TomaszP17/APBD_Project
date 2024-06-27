@@ -4,6 +4,7 @@ using APBD_Project.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APBD_Project.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    partial class DataBaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240627120830_Add Soft and Disc tables")]
+    partial class AddSoftandDisctables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,10 +111,6 @@ namespace APBD_Project.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("ActualVersion");
 
-                    b.Property<double>("BuyPrice")
-                        .HasColumnType("float")
-                        .HasColumnName("BuyPrice");
-
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -130,9 +129,9 @@ namespace APBD_Project.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("Name");
 
-                    b.Property<double>("SubPrice")
+                    b.Property<double>("Price")
                         .HasColumnType("float")
-                        .HasColumnName("SubPrice");
+                        .HasColumnName("Price");
 
                     b.HasKey("SoftwareId");
 

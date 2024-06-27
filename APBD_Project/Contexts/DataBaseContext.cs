@@ -8,6 +8,8 @@ public class DataBaseContext : DbContext
     public DbSet<Client> Clients { get; set; }
     public DbSet<IndividualClient> IndividualClients { get; set; }
     public DbSet<CompanyClient> CompanyClients { get; set; }
+    public DbSet<Software> Softwares { get; set; }
+    public DbSet<Discount> Discounts { get; set; }
     
     protected DataBaseContext()
     {
@@ -97,5 +99,8 @@ public class DataBaseContext : DbContext
                 PhoneNumber = "888999777"
             }
         );
+        
+        
+        
     }
 }
