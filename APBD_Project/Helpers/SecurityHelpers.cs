@@ -30,20 +30,6 @@ public static class SecurityHelpers
             return new(hashed, saltBase64);
         }
 
-        public static string GetHashedPasswordWithSalt(string password, string salt)
-        {
-            byte[] saltBytes = Convert.FromBase64String(salt);
-
-            string currentHashedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: password,
-                salt: saltBytes,
-                prf: KeyDerivationPrf.HMACSHA1,
-                iterationCount: 10000,
-                numBytesRequested: 256 / 8));
-
-            return currentHashedPassword;
-        }
-
         public static string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
@@ -53,42 +39,7 @@ public static class SecurityHelpers
                 return Convert.ToBase64String(randomNumber);
             }
         }
-
-        public static string GetUserIdFromAccessToken(string accessToken, string secret)
-        {
-            var tokenValidationParamters = new TokenValidationParameters
-            {
-                ValidateAudience = true,
-                ValidateIssuer = true,
-                ValidateActor = true,
-                ClockSkew = TimeSpan.FromMinutes(2),
-                ValidIssuer = "https://localhost:5001", //should come from configuration
-                ValidAudience = "https://localhost:5001", //should come from configuration
-                ValidateLifetime = false, // We don't validate lifetime
-                IssuerSigningKey =
-                    new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(secret)
-                    )
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            SecurityToken securityToken;
-            var principal = tokenHandler.ValidateToken(accessToken, tokenValidationParamters, out securityToken);
-            var jwtSecurityToken = securityToken as JwtSecurityToken;
-            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-            {
-                throw new SecurityTokenException("Invalid token!");
-            }
-
-            var userId = principal.FindFirst(ClaimTypes.Name)?.Value;
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                throw new SecurityTokenException($"Missing claim: {ClaimTypes.Name}!");
-            }
-
-            return userId;
-        }
+        
         public static string GenerateJwtToken(User user, IConfiguration config)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

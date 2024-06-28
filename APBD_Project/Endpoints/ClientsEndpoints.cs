@@ -95,7 +95,7 @@ public static class ClientsEndpoints
             {
                 return Results.BadRequest(e.Message);
             }
-        }).RequireAuthorization("User");
+        }).RequireAuthorization("Admin");
         
         group.MapPut("/companyClient/{id:int}", async (
             int id,
@@ -119,6 +119,6 @@ public static class ClientsEndpoints
             {
                 return Results.BadRequest(e.Message);
             }
-        });
+        }).RequireAuthorization("Admin");
     }
 }

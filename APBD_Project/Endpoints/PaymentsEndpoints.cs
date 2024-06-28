@@ -32,6 +32,6 @@ public static class PaymentsEndpoints
                 return Results.BadRequest(e.Message);
             }
             
-        });
+        }).RequireAuthorization("User");
     }
 }

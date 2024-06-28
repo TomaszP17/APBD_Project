@@ -1,6 +1,5 @@
 using APBD_Project.Models;
 using Microsoft.EntityFrameworkCore;
-using Contract = System.Diagnostics.Contracts.Contract;
 
 namespace APBD_Project.Contexts;
 
@@ -53,22 +52,22 @@ public class DataBaseContext : DbContext
             new IndividualClient
             {
                 ClientId = 2,
-                FirstName = "Jane",
-                LastName = "Smith",
+                FirstName = "Major",
+                LastName = "Suchodolski",
                 Pesel = "23456789012",
-                Address = "456 Elm St",
-                Email = "jane.smith@example.com",
+                Address = "Szkolna",
+                Email = "major.sucho@example.com",
                 PhoneNumber = "213456789",
                 IsDeleted = false
             },
             new IndividualClient
             {
                 ClientId = 3,
-                FirstName = "Alice",
-                LastName = "Johnson",
+                FirstName = "Alicja",
+                LastName = "Zczarow",
                 Pesel = "34567890123",
-                Address = "789 Oak St",
-                Email = "alice.johnson@example.com",
+                Address = "kraina czaorw",
+                Email = "alicja.zczarow@example.com",
                 PhoneNumber = "987654321",
                 IsDeleted = false
             }
@@ -79,28 +78,28 @@ public class DataBaseContext : DbContext
             new CompanyClient
             {
                 ClientId = 4,
-                CompanyName = "ABC Corp",
+                CompanyName = "drutex",
                 KRSNumber = "9876543210",
-                Address = "456 Corporate Blvd",
-                Email = "contact@abccorp.com",
+                Address = "podkarpacie 30",
+                Email = "kontakt@drutex.com",
                 PhoneNumber = "066655999"
             },
             new CompanyClient
             {
                 ClientId = 5,
-                CompanyName = "XYZ Ltd",
+                CompanyName = "miau miau sa",
                 KRSNumber = "8765432109",
-                Address = "789 Business Rd",
-                Email = "info@xyzltd.com",
+                Address = "kocia 69",
+                Email = "info@kocie.com",
                 PhoneNumber = "333222111"
             },
             new CompanyClient
             {
                 ClientId = 6,
-                CompanyName = "MNO Inc",
+                CompanyName = "halny wiatr",
                 KRSNumber = "7654321098",
-                Address = "123 Enterprise Ave",
-                Email = "support@mnoinc.com",
+                Address = "zakopane 15",
+                Email = "support@zakopane.com",
                 PhoneNumber = "888999777"
             }
         );

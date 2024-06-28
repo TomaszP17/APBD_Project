@@ -46,7 +46,7 @@ public static class UsersEndpoints
             }
         }).AllowAnonymous();
 
-        group.MapGet("/refreshToken/{refreshToken:string}", async (
+        group.MapPost("/refreshToken/{refreshToken}", async (
             string refreshToken,
             IUserService service) =>
         {
@@ -59,6 +59,6 @@ public static class UsersEndpoints
             {
                 return Results.BadRequest(e.Message);
             }
-        });
+        }).AllowAnonymous();
     }
 }

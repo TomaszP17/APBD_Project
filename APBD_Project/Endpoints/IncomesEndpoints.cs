@@ -23,7 +23,7 @@ public static class IncomesEndpoints
             {
                 return Results.BadRequest(e.Message);
             }
-        });
+        }).RequireAuthorization("User");
 
         group.MapGet("/{productId:int}", async (
             string? currency,
@@ -39,7 +39,7 @@ public static class IncomesEndpoints
             {
                 return Results.BadRequest(e.Message);
             }
-        });
+        }).RequireAuthorization("User");
 
     }
 }
