@@ -1,3 +1,4 @@
+using APBD_Project.Exceptions;
 using APBD_Project.RequestModels;
 using APBD_Project.Services;
 using FluentValidation;
@@ -65,7 +66,7 @@ public static class ClientsEndpoints
                 await service.DeleteIndividualClientAsync(id);
                 return Results.NoContent();
             }
-            catch (Exception e)
+            catch (ClientDoesNotExistsException e)
             {
                 return Results.BadRequest(e.Message);
             }

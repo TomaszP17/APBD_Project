@@ -22,6 +22,11 @@ public class PaymentService(DataBaseContext context) : IPaymentService
             throw new Exception("Client and contract do not match.");
         }
         
+        if(contract.EndDate < DateTime.Now)
+        {
+            throw new Exception("Contract has already ended.");
+        }
+        
         if (contract.IsSigned)
         {
             throw new Exception("Contract is already signed.");
@@ -29,9 +34,30 @@ public class PaymentService(DataBaseContext context) : IPaymentService
         
         var payment = new Payment
         {
-            Date = model.PaymentDate,
-            PaymentAmount = model.PaymentAmount,
-            ContractId = model.ContractId
+            Amount = model.Amount,
+            Date = DateTime.Now,
+            ContractId = model.ContractId,
+            ClientId = model.ClientId
         };
+        
+        await context.Payments.AddAsync(payment);
+
+        var currentlyPaid = contract.CurrentlyPaid;
+        var totalCost = contract.TotalPaid;
+        
+        if (currentlyPaid + model.Amount > totalCost)
+        {
+            throw new Exception("You try to pay more than you should.");
+        }
+        else if (currentlyPaid + model.Amount == totalCost)
+        {
+            contract.CurrentlyPaid += model.Amount;
+            contract.IsSigned = true;
+        }
+        else
+        {
+            contract.CurrentlyPaid += model.Amount;
+        }
+        await context.SaveChangesAsync();
     }
 }

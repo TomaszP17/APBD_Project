@@ -40,11 +40,11 @@ public class DataBaseContext : DbContext
             new IndividualClient
             {
                 ClientId = 1,
-                FirstName = "John",
-                LastName = "Doe",
+                FirstName = "Mariusz",
+                LastName = "Pudzianowski",
                 Pesel = "12345678901",
-                Address = "123 Main St",
-                Email = "john.doe@example.com",
+                Address = "palac 2",
+                Email = "mariuszp@example.com",
                 PhoneNumber = "123456789",
                 IsDeleted = false
             },

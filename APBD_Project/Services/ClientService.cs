@@ -1,4 +1,5 @@
 using APBD_Project.Contexts;
+using APBD_Project.Exceptions;
 using APBD_Project.Models;
 using APBD_Project.RequestModels;
 using APBD_Project.Validators;
@@ -46,7 +47,7 @@ public class ClientService(DataBaseContext context) : IClientService
         
         if (client == null)
         {
-            throw new Exception("Client not found.");
+            throw new ClientDoesNotExistsException("Client is not exists.");
         }
 
         client.IsDeleted = true;
