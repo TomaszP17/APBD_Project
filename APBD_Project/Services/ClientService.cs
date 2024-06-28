@@ -2,8 +2,6 @@ using APBD_Project.Contexts;
 using APBD_Project.Exceptions;
 using APBD_Project.Models;
 using APBD_Project.RequestModels;
-using APBD_Project.Validators;
-using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 namespace APBD_Project.Services;

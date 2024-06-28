@@ -33,7 +33,7 @@ public static class ClientsEndpoints
                 return Results.BadRequest(e.Message);
             }
             
-        });
+        }).RequireAuthorization("User");
         
         group.MapPost("/companyClient", async (
             CreateCompanyClientRequestModel model,
@@ -55,7 +55,7 @@ public static class ClientsEndpoints
             {
                 return Results.BadRequest(e.Message);
             }
-        });
+        }).RequireAuthorization("User");
         
         group.MapDelete("/individualClient/{id:int}", async (
             int id,
@@ -70,7 +70,7 @@ public static class ClientsEndpoints
             {
                 return Results.BadRequest(e.Message);
             }
-        });
+        }).RequireAuthorization("Admin");
         
         group.MapPut("/individualClient/{id:int}", async (
             int id,
@@ -95,7 +95,7 @@ public static class ClientsEndpoints
             {
                 return Results.BadRequest(e.Message);
             }
-        });
+        }).RequireAuthorization("User");
         
         group.MapPut("/companyClient/{id:int}", async (
             int id,

@@ -13,6 +13,8 @@ public class DataBaseContext : DbContext
     public DbSet<Discount> Discounts { get; set; }
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Models.Contract> Contracts { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
     
     protected DataBaseContext()
     {
