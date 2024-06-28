@@ -1,7 +1,6 @@
 using APBD_Project.RequestModels;
 using APBD_Project.Services;
 using FluentValidation;
-using Microsoft.AspNetCore.Authorization;
 
 namespace APBD_Project.Endpoints;
 
